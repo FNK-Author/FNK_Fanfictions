@@ -36,7 +36,7 @@
       cursor: pointer;
     }
     .textbox {
-      margin: 20px auto;
+      margin: 10px auto;
       border: 5px solid white;
       width: 90%;
       max-width: 600px;
@@ -47,7 +47,8 @@
       text-align: left;
     }
     .textbox p {
-      margin-bottom: 1em;
+      margin-bottom: 2em;
+      font-size: 2em;
     }
     .mute-container {
       max-width: 600px;
@@ -86,7 +87,7 @@
     <option disabled selected>Kapitel wählen</option>
   </select>
 
-  <div class="textbox" id="storyContent">Kapitel wird geladen...</div>
+  <div class="textbox" id="storyContent">Wähle ein Kapitel. Bitte gib dem Kapitel oder der Fanfiction nach dem Lesen ein Upvote. Klicke dazu oben auf das FNK. Danke!</div>
 
   <div class="mute-container">
     <button id="muteButton">🔊</button>
@@ -130,7 +131,10 @@
       "Gefangen (Star Wars)": {
         prefix: "gefangen_",
         chapters: ["Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5", "Tag 6 - Morgendämmerung"],
-        music: Array(6).fill("834z4h")
+        music: [
+          "gupyh7", "834z4h", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7"
+        ]
       },
       "Veilchen für Vi (Arcane)": {
         prefix: "vfv_",
@@ -147,7 +151,14 @@
           "Nymphadora Tonks", "Minerva McGonagall", "Dobby, der freie Elf", "Rubeus Hagrid", "Hermine Granger",
           "Nachwort"
         ],
-        music: Array(26).fill("834z4h")
+        music: [
+          "gupyh7", "834z4h", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7"
+        ]
       },
       "化身的职责 - Die Pflicht eines Avatars": {
         prefix: "dpea_",
@@ -164,6 +175,7 @@
 
     let currentStory = null;
     let currentChapter = 0;
+    let currentMusicID = null;
 
     Object.keys(stories).forEach(name => {
       const option = document.createElement("option");
@@ -212,10 +224,16 @@
           content.innerHTML = paras
             .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
             .join('');
-          bgMusic.src = `https://files.catbox.moe/${story.music[index]}.mp3`;
-          bgMusic.play();
-          bgMusic.muted = false;
-          updateMuteIcon();
+
+          const musicID = story.music[index];
+          if (musicID !== currentMusicID) {
+            bgMusic.src = `https://files.catbox.moe/${musicID}.mp3`;
+            bgMusic.play();
+            bgMusic.muted = false;
+            currentMusicID = musicID;
+            updateMuteIcon();
+          }
+
         })
         .catch(() => {
           content.innerHTML = "<p>Leider kein Kapitel gefunden.</p>";

@@ -71,7 +71,7 @@
       cursor: pointer;
       user-select: none;
     }
-    audio {
+    audio, iframe {
       display: none;
     }
   </style>
@@ -99,6 +99,7 @@
   </div>
 
   <audio id="bgMusic" autoplay loop></audio>
+  <iframe id="ytPlayer" allow="autoplay; encrypted-media" frameborder="0"></iframe>
 
   <script>
     const stories = {
@@ -114,13 +115,13 @@
           "Solo", "Der Hexentag - Teil 1", "Der Hexentag - Teil 2", "Der Hexentag - Teil 3", "Der Hexentag - Teil 4"
         ],
         music: [
-          "gupyh7", "834z4h", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7"
+          "gupyh7","834z4h","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7"
         ]
       },
       "SADMAX (Stranger Things)": {
@@ -131,10 +132,7 @@
       "Gefangen (Star Wars)": {
         prefix: "gefangen_",
         chapters: ["Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5", "Tag 6 - Morgendämmerung"],
-        music: [
-          "gupyh7", "834z4h", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7"
-        ]
+        music: ["gupyh7","834z4h","gupyh7","gupyh7","gupyh7","gupyh7","gupyh7"]
       },
       "Veilchen für Vi (Arcane)": {
         prefix: "vfv_",
@@ -144,19 +142,22 @@
       "Erinnermich, der Harry Potter Adventskalender 2024": {
         prefix: "erinnermich24_",
         chapters: [
-          "Vorwort", "Harry Potter", "Severus Snape", "Fred Weasley", "George Weasley",
-          "Luna Lovegood", "Draco Malfoy", "Sirius Black", "Remus Lupin", "Bellatrix Lestrange",
-          "Lucius Malfoy", "Ginny Weasley", "Ron Weasley", "Neville Longbottom", "Albus Dumbledore",
-          "Viktor Krum", "Molly Weasley", "Percy Weasley", "Lily Potter", "James Potter",
-          "Nymphadora Tonks", "Minerva McGonagall", "Dobby, der freie Elf", "Rubeus Hagrid", "Hermine Granger",
+          "Vorwort","Harry Potter","Severus Snape","Fred Weasley","George Weasley",
+          "Luna Lovegood","Draco Malfoy","Sirius Black","Remus Lupin","Bellatrix Lestrange",
+          "Lucius Malfoy","Ginny Weasley","Ron Weasley","Neville Longbottom","Albus Dumbledore",
+          "Viktor Krum","Molly Weasley","Percy Weasley","Lily Potter","James Potter",
+          "Nymphadora Tonks","Minerva McGonagall","Dobby, der freie Elf","Rubeus Hagrid","Hermine Granger",
           "Nachwort"
         ],
         music: [
-          "gupyh7", "834z4h", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
-          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7","834z4h",
+          "https://www.youtube-nocookie.com/embed/-hQr5xi7Tys?si=aHqiKuy8s5YqbenH&amp;controls=0",
+          "https://www.youtube-nocookie.com/embed/-hQr5xi7Tys?si=aHqiKuy8s5YqbenH&amp;controls=0",
+          "https://www.youtube.com/embed/QCwBkQaodWc?si=Fl1VBhnrC1YYQgaG&controls=0",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
+          "gupyh7","gupyh7","gupyh7","gupyh7","gupyh7",
           "gupyh7"
         ]
       },
@@ -171,93 +172,93 @@
     const chapterSelect = document.getElementById("chapterSelect");
     const content = document.getElementById("storyContent");
     const bgMusic = document.getElementById("bgMusic");
+    const ytPlayer = document.getElementById("ytPlayer");
     const muteButton = document.getElementById("muteButton");
 
     let currentStory = null;
     let currentChapter = 0;
     let currentMusicID = null;
+    let isYtMuted = false;
 
     Object.keys(stories).forEach(name => {
-      const option = document.createElement("option");
-      option.value = name;
-      option.textContent = name;
-      storySelect.appendChild(option);
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      storySelect.appendChild(opt);
     });
 
     storySelect.addEventListener("change", () => {
-      chapterSelect.innerHTML = "";
-      const option = document.createElement("option");
-      option.disabled = true;
-      option.selected = true;
-      option.textContent = "Kapitel wählen";
-      chapterSelect.appendChild(option);
-
+      chapterSelect.innerHTML = '<option disabled selected>Kapitel wählen</option>';
       currentStory = stories[storySelect.value];
       currentChapter = 0;
-
-      currentStory.chapters.forEach((title, i) => {
-        const opt = document.createElement("option");
-        opt.value = i;
-        opt.textContent = `${i + 1}. ${title}`;
-        chapterSelect.appendChild(opt);
+      currentStory.chapters.forEach((t, i) => {
+        const o = document.createElement("option");
+        o.value = i;
+        o.textContent = `${i+1}. ${t}`;
+        chapterSelect.appendChild(o);
       });
-
       chapterSelect.selectedIndex = 1;
       loadChapter(0);
     });
 
     chapterSelect.addEventListener("change", () => {
-      currentChapter = parseInt(chapterSelect.value);
+      currentChapter = +chapterSelect.value;
       loadChapter(currentChapter);
     });
 
-    function loadChapter(index) {
-      const storyName = storySelect.value;
-      const story = stories[storyName];
-      const chapterNumber = index + 1;
-      const url = `https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/${story.prefix}${chapterNumber}.txt`;
-
-      fetch(url)
-        .then(res => res.ok ? res.text() : "Leider kein Kapitel gefunden.")
-        .then(text => {
-          const paras = text.trim().split(/\n\s*\n/);
-          content.innerHTML = paras
-            .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
-            .join('');
-
-          const musicID = story.music[index];
-          if (musicID !== currentMusicID) {
-            bgMusic.src = `https://files.catbox.moe/${musicID}.mp3`;
-            bgMusic.play();
-            bgMusic.muted = false;
-            currentMusicID = musicID;
-            updateMuteIcon();
+    function loadChapter(idx) {
+      const s = currentStory;
+      const num = idx+1;
+      fetch(`https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/${s.prefix}${num}.txt`)
+        .then(r => r.ok? r.text(): "Leider kein Kapitel gefunden.")
+        .then(txt => {
+          content.innerHTML = txt.trim().split(/\n\s*\n/).map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+          const src = s.music[idx]||"";
+          if (src.startsWith("http")) {
+            if (src !== currentMusicID) {
+              const sep = src.includes('?')? '&':'?';
+              ytPlayer.src = src + sep + 'autoplay=1&controls=0&mute=' + (isYtMuted? '1':'0');
+              currentMusicID = src;
+            }
+            bgMusic.pause();
+          } else {
+            if (src !== currentMusicID) {
+              ytPlayer.src = "";
+              bgMusic.src = `https://files.catbox.moe/${src}.mp3`;
+              bgMusic.play();
+              bgMusic.muted = false;
+              currentMusicID = src;
+              updateMuteIcon();
+            }
           }
-
         })
-        .catch(() => {
-          content.innerHTML = "<p>Leider kein Kapitel gefunden.</p>";
-        });
-
-      chapterSelect.selectedIndex = index + 1;
+        .catch(_=>{ content.innerHTML="<p>Leider kein Kapitel gefunden.</p>"; });
+      chapterSelect.selectedIndex = idx+1;
     }
 
-    function changeChapter(direction) {
+    function changeChapter(dir) {
       if (!currentStory) return;
-      const newIndex = currentChapter + direction;
-      if (newIndex >= 0 && newIndex < currentStory.chapters.length) {
-        currentChapter = newIndex;
-        loadChapter(newIndex);
+      const n = currentChapter + dir;
+      if (n>=0 && n<currentStory.chapters.length) {
+        currentChapter = n;
+        loadChapter(n);
       }
     }
 
     muteButton.addEventListener('click', () => {
-      bgMusic.muted = !bgMusic.muted;
+      if (ytPlayer.src.includes("youtube.com")) {
+        isYtMuted = !isYtMuted;
+        const base = ytPlayer.src.replace(/&mute=\d/, '');
+        ytPlayer.src = base + '&mute=' + (isYtMuted? '1':'0');
+      } else {
+        bgMusic.muted = !bgMusic.muted;
+      }
       updateMuteIcon();
     });
 
     function updateMuteIcon() {
-      muteButton.textContent = bgMusic.muted ? '🔇' : '🔊';
+      const muted = ytPlayer.src.includes("youtube.com") ? isYtMuted : bgMusic.muted;
+      muteButton.textContent = muted? '🔇':'🔊';
     }
   </script>
 </body>

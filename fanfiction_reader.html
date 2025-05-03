@@ -33,6 +33,7 @@
       border-radius: 5px;
       max-width: 600px;
       width: 90%;
+      cursor: pointer;
     }
     .textbox {
       margin: 20px auto;
@@ -43,6 +44,19 @@
       overflow-y: auto;
       padding: 15px;
       background-color: transparent;
+      text-align: left;
+    }
+    .textbox p {
+      margin-bottom: 1em;
+    }
+    .mute-container {
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+    #muteButton {
+      font-size: 24px;
+      background: none;
+      padding: 5px;
     }
     .nav-buttons {
       display: flex;
@@ -74,12 +88,16 @@
 
   <div class="textbox" id="storyContent">Kapitel wird geladen...</div>
 
+  <div class="mute-container">
+    <button id="muteButton">🔊</button>
+  </div>
+
   <div class="nav-buttons">
     <div class="arrow" onclick="changeChapter(-1)">←</div>
     <div class="arrow" onclick="changeChapter(1)">→</div>
   </div>
 
-  <audio id="bgMusic" controls autoplay loop></audio>
+  <audio id="bgMusic" autoplay loop></audio>
 
   <script>
     const stories = {
@@ -142,6 +160,7 @@
     const chapterSelect = document.getElementById("chapterSelect");
     const content = document.getElementById("storyContent");
     const bgMusic = document.getElementById("bgMusic");
+    const muteButton = document.getElementById("muteButton");
 
     let currentStory = null;
     let currentChapter = 0;
@@ -189,12 +208,17 @@
       fetch(url)
         .then(res => res.ok ? res.text() : "Leider kein Kapitel gefunden.")
         .then(text => {
-          content.textContent = text;
+          const paras = text.trim().split(/\n\s*\n/);
+          content.innerHTML = paras
+            .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+            .join('');
           bgMusic.src = `https://files.catbox.moe/${story.music[index]}.mp3`;
           bgMusic.play();
+          bgMusic.muted = false;
+          updateMuteIcon();
         })
         .catch(() => {
-          content.textContent = "Leider kein Kapitel gefunden.";
+          content.innerHTML = "<p>Leider kein Kapitel gefunden.</p>";
         });
 
       chapterSelect.selectedIndex = index + 1;
@@ -207,6 +231,15 @@
         currentChapter = newIndex;
         loadChapter(newIndex);
       }
+    }
+
+    muteButton.addEventListener('click', () => {
+      bgMusic.muted = !bgMusic.muted;
+      updateMuteIcon();
+    });
+
+    function updateMuteIcon() {
+      muteButton.textContent = bgMusic.muted ? '🔇' : '🔊';
     }
   </script>
 </body>

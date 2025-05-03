@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fanfictions by FNK</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #00001C;
+      color: white;
+      font-family: 'EB Garamond', Garamond, serif;
+      text-align: center;
+      zoom: 1;
+    }
+    h1 {
+      font-size: 25px;
+      margin-top: 20px;
+    }
+    .highlight {
+      color: #EFB734;
+      text-decoration: none;
+    }
+    select, button {
+      background-color: #EFD6A5;
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 10px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      max-width: 600px;
+      width: 90%;
+    }
+    .textbox {
+      margin: 20px auto;
+      border: 5px solid white;
+      width: 90%;
+      max-width: 600px;
+      aspect-ratio: 3/4;
+      overflow-y: auto;
+      padding: 15px;
+      background-color: transparent;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      padding: 0 10px;
+    }
+    .arrow {
+      font-size: 30px;
+      cursor: pointer;
+      user-select: none;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fanfictions by <a class="highlight" href="https://linktr.ee/fnk_fanfics" target="_blank">FNK</a></h1>
+
+  <select id="storySelect">
+    <option disabled selected>Wähle eine Geschichte</option>
+  </select>
+
+  <select id="chapterSelect">
+    <option disabled selected>Kapitel wählen</option>
+  </select>
+
+  <div class="textbox" id="storyContent">Kapitel wird geladen...</div>
+
+  <div class="nav-buttons">
+    <div class="arrow" onclick="changeChapter(-1)">←</div>
+    <div class="arrow" onclick="changeChapter(1)">→</div>
+  </div>
+
+  <audio id="bgMusic" controls autoplay loop></audio>
+
+  <script>
+    const stories = {
+      "Die Hexe in der Nacht (Harry Potter)": {
+        prefix: "dhidn_",
+        chapters: [
+          "Der Fang seines Lebens", "Die Regelbrecher", "Missetat begangen", "Die Feier", "Neugier",
+          "Das Geheimnis", "Der Trank", "Der Sturm", "Ein Wunsch geht in Erfüllung", "Bis wir uns irgendwann wiedersehen und zusammenwachsen",
+          "Geschichten in der Hütte", "Die Nacht ist noch nicht vorbei", "Apfel-Zimt", "Hirsch und Pferd", "Die Schuld",
+          "Pfefferminz Melodie", "Eine kleine Ewigkeit", "Eskalation - Teil 1", "Eskalation - Teil 2", "Träumerei",
+          "Tunichtgut", "Erinnerungslücken", "Unverzeihlich", "Der Tiefpunkt", "Felicity - Teil 1: Das Geheimnis",
+          "Felicity - Teil 2: Die Freundschaft", "Felicity - Teil 3: Der Unfall", "Felicity - Teil 4: Das Portrait", "Ein offenes Ohr", "Therapie",
+          "Solo", "Der Hexentag - Teil 1", "Der Hexentag - Teil 2", "Der Hexentag - Teil 3", "Der Hexentag - Teil 4"
+        ],
+        music: [
+          "gupyh7", "834z4h", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7",
+          "gupyh7", "gupyh7", "gupyh7", "gupyh7", "gupyh7"
+        ]
+      },
+      "SADMAX (Stranger Things)": {
+        prefix: "sadmax_",
+        chapters: ["Prolog"],
+        music: ["834z4h"]
+      },
+      "Gefangen (Star Wars)": {
+        prefix: "gefangen_",
+        chapters: ["Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5", "Tag 6 - Morgendämmerung"],
+        music: Array(6).fill("834z4h")
+      },
+      "Veilchen für Vi (Arcane)": {
+        prefix: "vfv_",
+        chapters: ["Veilchen für Vi"],
+        music: ["834z4h"]
+      },
+      "Erinnermich, der Harry Potter Adventskalender 2024": {
+        prefix: "erinnermich24_",
+        chapters: [
+          "Vorwort", "Harry Potter", "Severus Snape", "Fred Weasley", "George Weasley",
+          "Luna Lovegood", "Draco Malfoy", "Sirius Black", "Remus Lupin", "Bellatrix Lestrange",
+          "Lucius Malfoy", "Ginny Weasley", "Ron Weasley", "Neville Longbottom", "Albus Dumbledore",
+          "Viktor Krum", "Molly Weasley", "Percy Weasley", "Lily Potter", "James Potter",
+          "Nymphadora Tonks", "Minerva McGonagall", "Dobby, der freie Elf", "Rubeus Hagrid", "Hermine Granger",
+          "Nachwort"
+        ],
+        music: Array(26).fill("834z4h")
+      },
+      "化身的职责 - Die Pflicht eines Avatars": {
+        prefix: "dpea_",
+        chapters: ["Die Pflicht eines Avatars"],
+        music: ["834z4h"]
+      }
+    };
+
+    const storySelect = document.getElementById("storySelect");
+    const chapterSelect = document.getElementById("chapterSelect");
+    const content = document.getElementById("storyContent");
+    const bgMusic = document.getElementById("bgMusic");
+
+    let currentStory = null;
+    let currentChapter = 0;
+
+    Object.keys(stories).forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      storySelect.appendChild(option);
+    });
+
+    storySelect.addEventListener("change", () => {
+      chapterSelect.innerHTML = "";
+      const option = document.createElement("option");
+      option.disabled = true;
+      option.selected = true;
+      option.textContent = "Kapitel wählen";
+      chapterSelect.appendChild(option);
+
+      currentStory = stories[storySelect.value];
+      currentChapter = 0;
+
+      currentStory.chapters.forEach((title, i) => {
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = `${i + 1}. ${title}`;
+        chapterSelect.appendChild(opt);
+      });
+
+      chapterSelect.selectedIndex = 1;
+      loadChapter(0);
+    });
+
+    chapterSelect.addEventListener("change", () => {
+      currentChapter = parseInt(chapterSelect.value);
+      loadChapter(currentChapter);
+    });
+
+    function loadChapter(index) {
+      const storyName = storySelect.value;
+      const story = stories[storyName];
+      const chapterNumber = index + 1;
+      const url = `https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/${story.prefix}${chapterNumber}.txt`;
+
+      fetch(url)
+        .then(res => res.ok ? res.text() : "Leider kein Kapitel gefunden.")
+        .then(text => {
+          content.textContent = text;
+          bgMusic.src = `https://files.catbox.moe/${story.music[index]}.mp3`;
+          bgMusic.play();
+        })
+        .catch(() => {
+          content.textContent = "Leider kein Kapitel gefunden.";
+        });
+
+      chapterSelect.selectedIndex = index + 1;
+    }
+
+    function changeChapter(direction) {
+      if (!currentStory) return;
+      const newIndex = currentChapter + direction;
+      if (newIndex >= 0 && newIndex < currentStory.chapters.length) {
+        currentChapter = newIndex;
+        loadChapter(newIndex);
+      }
+    }
+  </script>
+</body>
+</html>

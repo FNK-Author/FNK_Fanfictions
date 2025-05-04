@@ -62,7 +62,7 @@
       width: 0em;
       text-align: left;
       color: #00001C;
-	  font-size: 20px;
+      font-size: 20px;
     }
     .textbox .line.playing::before {
       color: #00001C;
@@ -84,6 +84,13 @@
       margin: 0 auto 30px;
       padding: 0 10px;
     }
+    .autoscroll-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      max-width: 600px;
+      margin: 10px auto;
+    }
     .arrow {
       font-size: 30px;
       cursor: pointer;
@@ -104,6 +111,11 @@
   <select id="chapterSelect">
     <option disabled selected>Kapitel wählen</option>
   </select>
+
+  <div class="autoscroll-buttons">
+    <button id="autoscrollPlus">Autoscroll +</button>
+    <button id="autoscrollMinus">Autoscroll -</button>
+  </div>
 
   <div class="textbox" id="storyContent">
     Bitte gib dem Kapitel oder der Fanfiction nach dem Lesen ein Upvote. Klicke dazu oben auf das FNK. Danke!
@@ -203,11 +215,36 @@
     const content       = document.getElementById("storyContent");
     const audioTrigger  = document.getElementById("audioTrigger");
     const muteButton    = document.getElementById("muteButton");
+    const plusBtn       = document.getElementById("autoscrollPlus");
+    const minusBtn      = document.getElementById("autoscrollMinus");
 
     let currentStory    = null;
     let currentChapter  = 0;
     let currentTriggers = [];
     let currentMusicID  = null;
+
+    let scrollSpeed = 0; // Pixel pro Tick
+    let scrollInterval = null;
+    const SCROLL_TICK = 50; // ms
+
+    function updateAutoscroll() {
+      if (scrollInterval) clearInterval(scrollInterval);
+      if (scrollSpeed > 0) {
+        scrollInterval = setInterval(() => {
+          content.scrollTop += scrollSpeed;
+        }, SCROLL_TICK);
+      }
+    }
+
+    plusBtn.addEventListener('click', () => {
+      scrollSpeed++;
+      updateAutoscroll();
+    });
+
+    minusBtn.addEventListener('click', () => {
+      scrollSpeed = Math.max(0, scrollSpeed - 1);
+      updateAutoscroll();
+    });
 
     // Dropdown befüllen
     Object.keys(stories).forEach(name => {
@@ -236,12 +273,14 @@
     });
 
     function loadChapter(idx) {
-      // Audio reset
+      scrollSpeed = 0;
+      updateAutoscroll();
+
       audioTrigger.pause();
       audioTrigger.currentTime = 0;
       audioTrigger.src = "";
       currentMusicID = null;
-      // Text laden
+
       const s = currentStory;
       fetch(`https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/${s.prefix}${idx+1}.txt`)
         .then(r => r.ok ? r.text() : Promise.reject())
@@ -257,7 +296,6 @@
       chapterSelect.selectedIndex = idx + 1;
     }
 
-    // Scroll-Trigger mit scrollTop
     content.addEventListener('scroll', () => {
       const scrollTop = content.scrollTop;
       const lineEls = content.querySelectorAll('.line');

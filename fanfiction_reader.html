@@ -225,7 +225,7 @@
 
     let scrollSpeed = 0; // Pixel pro Tick
     let scrollInterval = null;
-    const SCROLL_TICK = 50; // ms
+    const SCROLL_TICK = 75; // ms
 
     function updateAutoscroll() {
       if (scrollInterval) clearInterval(scrollInterval);
@@ -237,12 +237,12 @@
     }
 
     plusBtn.addEventListener('click', () => {
-      scrollSpeed++;
+      scrollSpeed = scrollSpeed + 0.5;
       updateAutoscroll();
     });
 
     minusBtn.addEventListener('click', () => {
-      scrollSpeed = Math.max(0, scrollSpeed - 1);
+      scrollSpeed = Math.max(0, scrollSpeed - 0.5);
       updateAutoscroll();
     });
 

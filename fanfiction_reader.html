@@ -22,7 +22,7 @@
       color: #EFB734;
       text-decoration: none;
     }
-    select, button {
+    select, button, input[type="range"] {
       background-color: #EFD6A5;
       color: black;
       font-weight: bold;
@@ -33,6 +33,19 @@
       border-radius: 5px;
       max-width: 600px;
       width: 90%;
+      cursor: pointer;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 5px;
+      padding: 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #EFB734;
       cursor: pointer;
     }
     .textbox {
@@ -68,14 +81,9 @@
       color: #00001C;
       font-weight: bold;
     }
-    .mute-container {
+    .volume-container {
       max-width: 600px;
       margin: 0 auto 20px;
-    }
-    #muteButton {
-      font-size: 24px;
-      background: none;
-      padding: 5px;
     }
     .nav-buttons {
       display: flex;
@@ -121,8 +129,8 @@
     Bitte gib dem Kapitel oder der Fanfiction nach dem Lesen ein Upvote. Klicke dazu oben auf das FNK. Danke!
   </div>
 
-  <div class="mute-container">
-    <button id="muteButton">🔊</button>
+  <div class="volume-container">
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
   </div>
 
   <div class="nav-buttons">
@@ -146,57 +154,31 @@
           "Solo","Der Hexentag - Teil 1","Der Hexentag - Teil 2","Der Hexentag - Teil 3","Der Hexentag - Teil 4"
         ],
         triggers: {
-          0: [
-            { line: 1, music: "834z4h" },
-            { line: 50, music: "gupyh7" }
-          ],
-          1: [
-            { line: 1, music: "gupyh7" },
-            { line: 50, music: "834z4h" }
-          ]
+          0: [{ line: 1, music: "834z4h" },{ line: 50, music: "gupyh7" }],
+          1: [{ line: 1, music: "gupyh7" },{ line: 50, music: "834z4h" }]
         }
       },
       "SADMAX (Stranger Things)": {
         prefix: "sadmax_",
         chapters: ["Prolog"],
-        triggers: {
-          0: [
-            { line: 1, music: "ijfmmo" }
-          ]
-        }
+        triggers: { 0: [{ line: 1, music: "ijfmmo" }] }
       },
       "Gefangen (Star Wars)": {
         prefix: "gefangen_",
         chapters: ["Tag 1","Tag 2","Tag 3","Tag 4","Tag 5","Tag 6 - Morgendämmerung"],
         triggers: {
-          0: [
-            { line: 1, music: "g8xtlu" },{line: 150, music: "z8pr7g" }
-          ],
-          1: [
-            { line: 1, music: "z8pr7g" }
-          ],
-          2: [
-            { line: 1, music: "z8pr7g" }
-          ],
-          3: [
-            { line: 1, music: "z8pr7g" }
-          ],
-          4: [
-            { line: 1, music: "z8pr7g" }
-          ],
-          5: [
-            { line: 1, music: "z8pr7g" }
-          ]          
+          0: [{ line: 1, music: "g8xtlu" },{ line: 150, music: "z8pr7g" }],
+          1: [{ line: 1, music: "z8pr7g" }],
+          2: [{ line: 1, music: "z8pr7g" }],
+          3: [{ line: 1, music: "z8pr7g" }],
+          4: [{ line: 1, music: "z8pr7g" }],
+          5: [{ line: 1, music: "z8pr7g" }]
         }
       },
       "Veilchen für Vi (Arcane)": {
         prefix: "vfv_",
         chapters: ["Veilchen für Vi"],
-        triggers: {
-          0: [
-            { line: 1, music: "rwvxfl" }
-          ]
-        }
+        triggers: { 0: [{ line: 1, music: "rwvxfl" }] }
       },
       "Erinnermich, der Harry Potter Adventskalender 2024": {
         prefix: "erinnermich24_",
@@ -208,20 +190,12 @@
           "Nymphadora Tonks","Minerva McGonagall","Dobby, der freie Elf","Rubeus Hagrid","Hermine Granger",
           "Nachwort"
         ],
-        triggers: {
-          0: [
-            { line: 1, music: "834z4h" }
-          ]
-        }
+        triggers: { 0: [{ line: 1, music: "834z4h" }] }
       },
       "化身的职责 - Die Pflicht eines Avatars": {
         prefix: "dpea_",
         chapters: ["Die Pflicht eines Avatars"],
-        triggers: {
-          0: [
-            { line: 1, music: "834z4h" }
-          ]
-        }
+        triggers: { 0: [{ line: 1, music: "834z4h" }] }
       }
     };
 
@@ -229,7 +203,7 @@
     const chapterSelect = document.getElementById("chapterSelect");
     const content       = document.getElementById("storyContent");
     const audioTrigger  = document.getElementById("audioTrigger");
-    const muteButton    = document.getElementById("muteButton");
+    const volumeSlider  = document.getElementById("volumeSlider");
     const plusBtn       = document.getElementById("autoscrollPlus");
     const minusBtn      = document.getElementById("autoscrollMinus");
 
@@ -238,9 +212,9 @@
     let currentTriggers = [];
     let currentMusicID  = null;
 
-    let scrollSpeed = 0; // Pixel pro Tick
+    let scrollSpeed = 0;
     let scrollInterval = null;
-    const SCROLL_TICK = 75; // ms
+    const SCROLL_TICK = 75;
 
     function updateAutoscroll() {
       if (scrollInterval) clearInterval(scrollInterval);
@@ -252,7 +226,7 @@
     }
 
     plusBtn.addEventListener('click', () => {
-      scrollSpeed = scrollSpeed + 0.5;
+      scrollSpeed += 0.5;
       updateAutoscroll();
     });
 
@@ -261,7 +235,6 @@
       updateAutoscroll();
     });
 
-    // Dropdown befüllen
     Object.keys(stories).forEach(name => {
       const opt = document.createElement("option");
       opt.value = name;
@@ -288,13 +261,15 @@
     });
 
     function loadChapter(idx) {
+      // alle Audio stoppen
+      document.querySelectorAll('audio').forEach(a => {
+        a.pause();
+        a.currentTime = 0;
+        a.src = '';
+      });
       scrollSpeed = 0;
       updateAutoscroll();
-
-      audioTrigger.pause();
-      audioTrigger.currentTime = 0;
-      audioTrigger.src = "";
-      currentMusicID = null;
+      content.scrollTop = 0;
 
       const s = currentStory;
       fetch(`https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/${s.prefix}${idx+1}.txt`)
@@ -302,10 +277,12 @@
         .then(txt => {
           const lines = txt.split('\n');
           content.innerHTML = lines.map(l => `<div class="line">${l}</div>`).join('');
+          content.scrollTop = 0;
           currentTriggers = s.triggers[idx] || [];
         })
         .catch(_ => {
           content.innerHTML = `<div class="line">Leider kein Kapitel gefunden.</div>`;
+          content.scrollTop = 0;
           currentTriggers = [];
         });
       chapterSelect.selectedIndex = idx + 1;
@@ -324,7 +301,7 @@
         if (Math.abs(offset - scrollTop) < lineHeight / 2) {
           currentMusicID = trig.music;
           audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
-          if (!audioTrigger.muted) audioTrigger.play();
+          if (audioTrigger.volume > 0) audioTrigger.play();
           lineEls.forEach(l => l.classList.remove('playing'));
           el.classList.add('playing');
         }
@@ -340,9 +317,8 @@
       }
     }
 
-    muteButton.addEventListener('click', () => {
-      audioTrigger.muted = !audioTrigger.muted;
-      muteButton.textContent = audioTrigger.muted ? '🔇' : '🔊';
+    volumeSlider.addEventListener('input', () => {
+      audioTrigger.volume = volumeSlider.value;
     });
   </script>
 </body>

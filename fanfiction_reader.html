@@ -308,7 +308,8 @@
       currentStory.chapters.forEach((t, i) => {
         const o = document.createElement("option");
         o.value = i;
-        o.textContent = `${i+1}. ${t}`;
+        const hasMusic = (currentStory.triggers[i] || []).some(trig => trig.music !== "");
+        o.textContent = `${i+1}. ${t}${hasMusic ? " | ♫" : ""}`;
         chapterSelect.appendChild(o);
       });
       loadChapter(0);

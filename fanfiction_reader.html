@@ -372,23 +372,25 @@
 
     function insertMediaTriggers() {
       const lineEls = content.querySelectorAll('.line');
-      currentTriggers.forEach(trig => {
+      // Bilder zuerst einfügen
+      currentTriggers.filter(trig => trig.image).forEach(trig => {
         const el = lineEls[trig.line - 1];
         if (!el) return;
-        if (trig.image) {
-          const img = document.createElement('img');
-          img.src = trig.image;
-          el.parentNode.insertBefore(img, el);
-        }
-        if (trig.video) {
-          const iframe = document.createElement('iframe');
-          iframe.src = trig.video;
-          iframe.width = "100%";
-          iframe.height = "315";
-          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-          iframe.allowFullscreen = true;
-          el.parentNode.insertBefore(iframe, el);
-        }
+        const img = document.createElement('img');
+        img.src = trig.image;
+        el.parentNode.insertBefore(img, el.nextSibling);
+      });
+      // Videos darunter einfügen
+      currentTriggers.filter(trig => trig.video).forEach(trig => {
+        const el = lineEls[trig.line - 1];
+        if (!el) return;
+        const iframe = document.createElement('iframe');
+        iframe.src = trig.video;
+        iframe.width = "100%";
+        iframe.height = "315";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        el.parentNode.insertBefore(iframe, el.nextSibling);
       });
     }
     
@@ -410,7 +412,7 @@
           content.innerHTML = lines.map(l => `<div class="line">${l}</div>`).join('');
           content.scrollTop = 0;
           currentTriggers = s.triggers[idx] || [];
-          insertImageTriggers();
+          insertMediaTriggers();
         })
         .catch(_ => {
           content.innerHTML = `<div class="line">Leider kein Kapitel gefunden.</div>`;

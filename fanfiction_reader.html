@@ -123,9 +123,37 @@
       transition: opacity 0.3s;
       opacity: 0.6;
     }
-.scroll-to-top:hover {
-  opacity: 1;
-}
+    .scroll-to-top:hover {
+      opacity: 1;
+    }
+    .fullscreen {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      max-height: none !important;
+      z-index: 1000;
+      background-color: black;
+      padding: 30px;
+      font-size: 2em;
+      overflow-y: auto;
+    }
+    .toggle-fullscreen-btn {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: #EFB734;
+      color: black;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 1001;
+    }
   </style>
 </head>
 <body>
@@ -156,6 +184,9 @@
     - FNK
   </div>
 
+  <button class="toggle-fullscreen-btn" onclick="toggleFullscreen()">🖥️ Fullscreen</button>
+
+  
   <div class="nav-buttons">
     <div class="arrow" onclick="changeChapter(-1)">←</div>
     <div class="arrow" onclick="changeChapter(1)">→</div>
@@ -471,6 +502,11 @@
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    function toggleFullscreen() {
+      const textbox = document.getElementById("storyContent");
+      textbox.classList.toggle("fullscreen");
+    }  
 
   </script>
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>

@@ -111,6 +111,21 @@
       display: block;
       margin: 10px auto;
     }
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      color: #EFB734;
+      cursor: pointer;
+      z-index: 999;
+      transition: opacity 0.3s;
+      opacity: 0.6;
+    }
+.scroll-to-top:hover {
+  opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -452,6 +467,12 @@
         loadChapter(n);
       }
     }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
   </script>
+  <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>

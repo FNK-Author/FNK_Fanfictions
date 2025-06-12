@@ -22,7 +22,7 @@
       color: #EFB734;
       text-decoration: none;
     }
-    select, button, input[type="range"] {
+    select, input[type="range"] {
       background-color: #EFD6A5;
       color: black;
       font-weight: bold;
@@ -81,9 +81,14 @@
       color: #FFC90E;
       font-weight: bold;
     }
-    .volume-container {
+    .control-container {
       max-width: 600px;
       margin: 0 auto 20px;
+    }
+    .slider-label {
+      color: #EFB734;
+      font-weight: bold;
+      margin-top: 10px;
     }
     .nav-buttons {
       display: flex;
@@ -91,13 +96,6 @@
       max-width: 600px;
       margin: 0 auto 30px;
       padding: 0 10px;
-    }
-    .autoscroll-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      max-width: 600px;
-      margin: 10px auto;
     }
     .arrow {
       font-size: 30px;
@@ -126,9 +124,11 @@
     <option disabled selected>Kapitel wählen</option>
   </select>
 
-  <div class="autoscroll-buttons">
-    <button id="autoscrollPlus">Autoscroll +</button>
-    <button id="autoscrollMinus">Autoscroll -</button>
+  <div class="control-container">
+    <div class="slider-label">🔊 Lautstärke</div>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
+    <div class="slider-label">🖱️ Autoscroll Geschwindigkeit</div>
+    <input type="range" id="autoscrollSlider" min="0" max="5" step="0.1" value="0" />
   </div>
 
   <div class="textbox" id="storyContent">
@@ -139,10 +139,6 @@
     Mein LinkTree findet ihr oben, wenn ihr auf das FNK klickt. Dort findet alle Social, Fanfictions, Discord und mehr - vielen Dank!<br><br>
     Viel Spaß beim Lesen!<br>
     - FNK
-  </div>
-
-  <div class="volume-container">
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
   </div>
 
   <div class="nav-buttons">
@@ -212,7 +208,8 @@
           0: [
             { line: 1, music: "e5jqa4" },
             { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/sadmax_1.png" }
-          ] }
+          ]
+        }
       },
       "Gefangen (Star Wars)": {
         prefix: "gefangen_",
@@ -237,7 +234,8 @@
           0: [
             { line: 1, music: "rwvxfl" },
             { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/vfv_1.png" }
-          ] }
+          ]
+        }
       },
       "Erinnermich, der Harry Potter Adventskalender 2024": {
         prefix: "erinnermich24_",
@@ -284,15 +282,16 @@
       "化身的职责 - Die Pflicht eines Avatars": {
         prefix: "dpea_",
         chapters: ["Die Pflicht eines Avatars"],
-        triggers: { 
+        triggers: {
           0: [
             { line: 1, music: "834z4h" },
             { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dpea_1.png" },
             { line: 3, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dpea_2.png" },
             { line: 5, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dpea_3.png" },
             { line: 7, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dpea_4.png" },
-            { line: 9, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dpea_5.png" }            
-          ] }
+            { line: 9, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dpea_5.png" }
+          ]
+        }
       }
     };
 
@@ -301,8 +300,7 @@
     const content       = document.getElementById("storyContent");
     const audioTrigger  = document.getElementById("audioTrigger");
     const volumeSlider  = document.getElementById("volumeSlider");
-    const plusBtn       = document.getElementById("autoscrollPlus");
-    const minusBtn      = document.getElementById("autoscrollMinus");
+    const autoscrollSlider = document.getElementById("autoscrollSlider");
 
     let currentStory    = null;
     let currentChapter  = 0;
@@ -322,14 +320,13 @@
       }
     }
 
-    plusBtn.addEventListener('click', () => {
-      scrollSpeed += 0.5;
+    autoscrollSlider.addEventListener('input', () => {
+      scrollSpeed = parseFloat(autoscrollSlider.value);
       updateAutoscroll();
     });
 
-    minusBtn.addEventListener('click', () => {
-      scrollSpeed = Math.max(0, scrollSpeed - 0.5);
-      updateAutoscroll();
+    volumeSlider.addEventListener('input', () => {
+      audioTrigger.volume = parseFloat(volumeSlider.value);
     });
 
     Object.keys(stories).forEach(name => {
@@ -379,6 +376,7 @@
         a.src = '';
       });
       scrollSpeed = 0;
+      autoscrollSlider.value = 0;
       updateAutoscroll();
       content.scrollTop = 0;
       const s = currentStory;
@@ -397,6 +395,7 @@
           currentTriggers = [];
         });
       chapterSelect.selectedIndex = idx + 1;
+      currentMusicID = null;
     }
 
     content.addEventListener('scroll', () => {
@@ -404,7 +403,7 @@
       const lineEls = content.querySelectorAll('.line');
       const lineHeight = lineEls[0]?.offsetHeight || 0;
       currentTriggers.forEach(trig => {
-        if (!trig.music) return;                 // ← hier ist der Fix
+        if (!trig.music) return;
         if (trig.music === currentMusicID) return;
         const el = lineEls[trig.line - 1];
         if (!el) return;
@@ -427,10 +426,6 @@
         loadChapter(n);
       }
     }
-
-    volumeSlider.addEventListener('input', () => {
-      audioTrigger.volume = volumeSlider.value;
-    });
   </script>
 </body>
 </html>

@@ -372,15 +372,15 @@
 
     function insertMediaTriggers() {
       const lineEls = content.querySelectorAll('.line');
-      // Bilder zuerst einfügen
+      // Bilder vor der Zeile einfügen
       currentTriggers.filter(trig => trig.image).forEach(trig => {
         const el = lineEls[trig.line - 1];
         if (!el) return;
         const img = document.createElement('img');
         img.src = trig.image;
-        el.parentNode.insertBefore(img, el.nextSibling);
+        el.parentNode.insertBefore(img, el);
       });
-      // Videos darunter einfügen
+      // Videos vor der Zeile einfügen
       currentTriggers.filter(trig => trig.video).forEach(trig => {
         const el = lineEls[trig.line - 1];
         if (!el) return;
@@ -390,7 +390,7 @@
         iframe.height = "315";
         iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
         iframe.allowFullscreen = true;
-        el.parentNode.insertBefore(iframe, el.nextSibling);
+        el.parentNode.insertBefore(iframe, el);
       });
     }
     

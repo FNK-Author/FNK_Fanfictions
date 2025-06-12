@@ -107,6 +107,12 @@
     audio {
       display: none;
     }
+    .textbox img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
   </style>
 </head>
 <body>
@@ -154,7 +160,10 @@
           "Solo","Der Hexentag - Teil 1","Der Hexentag - Teil 2","Der Hexentag - Teil 3","Der Hexentag - Teil 4"
         ],
         triggers: {
-          0: [{ line: 1, music: "yk0739" }],
+          0: [
+            { line: 1, music: "yk0739" },
+            { line: 5, image: "https://gitlab.com/username/repo/-/raw/main/images/dhidn_i_1.png" }
+          ],
           1: [{ line: 1, music: "5bgsn9" }],
           2: [{ line: 1, music: "h0ok1d" }],
           3: [{ line: 1, music: "aikb5w" }],
@@ -193,13 +202,15 @@
       "SADMAX (Stranger Things)": {
         prefix: "sadmax_",
         chapters: ["Prolog"],
-        triggers: { 0: [{ line: 1, music: "e5jqa4" }] }
+        triggers: {
+          0: [{ line: 1, music: "e5jqa4" }]
+        }
       },
       "Gefangen (Star Wars)": {
         prefix: "gefangen_",
         chapters: ["Tag 1","Tag 2","Tag 3","Tag 4","Tag 5","Tag 6 - Morgendämmerung"],
         triggers: {
-          0: [{ line: 1, music: "g8xtlu" },{ line: 150, music: "z8pr7g" }],
+          0: [{ line: 1, music: "g8xtlu" }, { line: 150, music: "z8pr7g" }],
           1: [{ line: 1, music: "z8pr7g" }],
           2: [{ line: 1, music: "z8pr7g" }],
           3: [{ line: 1, music: "z8pr7g" }],
@@ -210,7 +221,9 @@
       "Veilchen für Vi (Arcane)": {
         prefix: "vfv_",
         chapters: ["Veilchen für Vi"],
-        triggers: { 0: [{ line: 1, music: "rwvxfl" }] }
+        triggers: {
+          0: [{ line: 1, music: "rwvxfl" }]
+        }
       },
       "Erinnermich, der Harry Potter Adventskalender 2024": {
         prefix: "erinnermich24_",
@@ -254,7 +267,9 @@
       "化身的职责 - Die Pflicht eines Avatars": {
         prefix: "dpea_",
         chapters: ["Die Pflicht eines Avatars"],
-        triggers: { 0: [{ line: 1, music: "834z4h" }] }
+        triggers: {
+          0: [{ line: 1, music: "834z4h" }]
+        }
       }
     };
 
@@ -320,6 +335,20 @@
       loadChapter(currentChapter);
     });
 
+    function insertImageTriggers() {
+      const lineEls = content.querySelectorAll('.line');
+      currentTriggers.forEach(trig => {
+        if (trig.image) {
+          const el = lineEls[trig.line - 1];
+          if (el) {
+            const img = document.createElement('img');
+            img.src = trig.image;
+            el.parentNode.insertBefore(img, el);
+          }
+        }
+      });
+    }
+
     function loadChapter(idx) {
       document.querySelectorAll('audio').forEach(a => {
         a.pause();
@@ -338,6 +367,7 @@
           content.innerHTML = lines.map(l => `<div class="line">${l}</div>`).join('');
           content.scrollTop = 0;
           currentTriggers = s.triggers[idx] || [];
+          insertImageTriggers();
         })
         .catch(_ => {
           content.innerHTML = `<div class="line">Leider kein Kapitel gefunden.</div>`;

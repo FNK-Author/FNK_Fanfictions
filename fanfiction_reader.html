@@ -162,7 +162,7 @@
         triggers: {
           0: [
             { line: 1, music: "yk0739" },
-            { line: 5, image: "https://github.com/FNK-Author/FNK_Fanfictions/blob/408317a24ddb58b06c98177444c322d3e950946d/Illustration_DHIDN_3840x2160_600dpi.png" }
+            { line: 5, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/images/dhidn_i_1.png" }
           ],
           1: [{ line: 1, music: "5bgsn9" }],
           2: [{ line: 1, music: "h0ok1d" }],
@@ -202,9 +202,7 @@
       "SADMAX (Stranger Things)": {
         prefix: "sadmax_",
         chapters: ["Prolog"],
-        triggers: {
-          0: [{ line: 1, music: "e5jqa4" }]
-        }
+        triggers: { 0: [{ line: 1, music: "e5jqa4" }] }
       },
       "Gefangen (Star Wars)": {
         prefix: "gefangen_",
@@ -221,9 +219,7 @@
       "Veilchen für Vi (Arcane)": {
         prefix: "vfv_",
         chapters: ["Veilchen für Vi"],
-        triggers: {
-          0: [{ line: 1, music: "rwvxfl" }]
-        }
+        triggers: { 0: [{ line: 1, music: "rwvxfl" }] }
       },
       "Erinnermich, der Harry Potter Adventskalender 2024": {
         prefix: "erinnermich24_",
@@ -267,9 +263,7 @@
       "化身的职责 - Die Pflicht eines Avatars": {
         prefix: "dpea_",
         chapters: ["Die Pflicht eines Avatars"],
-        triggers: {
-          0: [{ line: 1, music: "834z4h" }]
-        }
+        triggers: { 0: [{ line: 1, music: "834z4h" }] }
       }
     };
 
@@ -358,7 +352,6 @@
       scrollSpeed = 0;
       updateAutoscroll();
       content.scrollTop = 0;
-
       const s = currentStory;
       fetch(`https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/${s.prefix}${idx+1}.txt`)
         .then(r => r.ok ? r.text() : Promise.reject())
@@ -381,7 +374,6 @@
       const scrollTop = content.scrollTop;
       const lineEls = content.querySelectorAll('.line');
       const lineHeight = lineEls[0]?.offsetHeight || 0;
-
       currentTriggers.forEach(trig => {
         if (trig.music === currentMusicID) return;
         const el = lineEls[trig.line - 1];

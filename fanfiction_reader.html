@@ -250,7 +250,8 @@
         triggers: {
           0: [
             { line: 1, music: "rs01xb" },
-            { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/erinnermich24_1.png" }
+            { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/erinnermich24_1.png" },
+            { line: 1, video: "https://www.youtube.com/embed/uwJ5CX20q6I?si=FDKTg3V8E0f1oyO9" }
           ],
           1: [{ line: 1, music: "rs01xb" }],
           2: [{ line: 1, music: "" }],
@@ -369,6 +370,28 @@
       });
     }
 
+    function insertMediaTriggers() {
+      const lineEls = content.querySelectorAll('.line');
+      currentTriggers.forEach(trig => {
+        const el = lineEls[trig.line - 1];
+        if (!el) return;
+        if (trig.image) {
+          const img = document.createElement('img');
+          img.src = trig.image;
+          el.parentNode.insertBefore(img, el);
+        }
+        if (trig.video) {
+          const iframe = document.createElement('iframe');
+          iframe.src = trig.video;
+          iframe.width = "100%";
+          iframe.height = "315";
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+          iframe.allowFullscreen = true;
+          el.parentNode.insertBefore(iframe, el);
+        }
+      });
+    }
+    
     function loadChapter(idx) {
       document.querySelectorAll('audio').forEach(a => {
         a.pause();

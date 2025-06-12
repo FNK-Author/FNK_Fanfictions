@@ -375,7 +375,7 @@
       const lineEls = content.querySelectorAll('.line');
       const lineHeight = lineEls[0]?.offsetHeight || 0;
       currentTriggers.forEach(trig => {
-        if (!trig.music) return;
+        if (!trig.music) return;                 // ← hier ist der Fix
         if (trig.music === currentMusicID) return;
         const el = lineEls[trig.line - 1];
         if (!el) return;

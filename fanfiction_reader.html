@@ -6,6 +6,10 @@
   <title>Fanfictions by FNK</title>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet" />
   <style>
+
+
+
+    
     body {
       margin: 0;
       background-color: #00000F;
@@ -240,7 +244,13 @@
       margin-bottom: 4px;
       color: #000000;
     }
-
+    
+    .dropdown-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
     
   </style>
 
@@ -248,18 +258,20 @@
 <body>
   <h1>Fanfictions by <a class="highlight" href="https://linktr.ee/fnk_fanfics" target="_blank">FNK</a></h1>
 
-  <select id="storySelect">
-    <option disabled selected>Wähle eine Geschichte</option>
-  </select>
-
-  <select id="chapterSelect">
-    <option disabled selected>Kapitel wählen</option>
-  </select>
-
-  <details id="atmosDropdown">
-    <summary>🎧 Immersion‑Atmos</summary>
-    <div id="atmosControls"></div>
-  </details>
+  <div class="dropdown-container">
+    <select id="storySelect">
+      <option disabled selected>Wähle eine Geschichte</option>
+    </select>
+  
+    <select id="chapterSelect">
+      <option disabled selected>Kapitel wählen</option>
+    </select>
+  
+    <details id="atmosDropdown">
+      <summary>🎧 Immersion‑Atmos</summary>
+      <div id="atmosControls"></div>
+    </details>
+  </div>
   
   <div class="control-container">
     <div class="slider-label">🔊 Lautstärke</div>

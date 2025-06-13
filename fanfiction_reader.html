@@ -133,12 +133,11 @@
       font-size: 20px;
     }
     
-    /* Positionierung mit 50px Abstand zueinander */
-    .prev-chapter-btn { right: 165px; }     /* links von scroll-to-top */
-    .scroll-to-top     { right: 215px; }     /* in der Mitte */
-    .next-chapter-btn { right: 265px; }     /* rechts von scroll-to-top */
+    /* Positionierung mit 50px Abstand */
+    .prev-chapter-btn { right: 210px; }
+    .scroll-to-top    { right: 160px; }
+    .next-chapter-btn { right: 110px; }
     
-    /* Kein Hover für scroll-to-top */
     .scroll-to-top {
       opacity: 0.6;
       transition: opacity 0.3s;
@@ -149,6 +148,32 @@
     .next-chapter-btn:hover {
       opacity: 1;
     }
+    
+    .toggle-fullscreen-btn,
+    .font-btn {
+      position: fixed;
+      height: 40px;
+      background-color: #EFB734;
+      color: #00000F;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 10px;
+    }
+    
+    .font-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+    
+    .font-btn.decrease { right: 60px; }
+    .font-btn.increase { right: 10px; }
     
     .fullscreen {
       position: fixed !important;
@@ -165,32 +190,6 @@
       overflow-y: auto;
       box-sizing: border-box;
     }
-    
-    .toggle-fullscreen-btn, .font-btn {
-      position: fixed;
-      height: 40px;
-      right: 10px;
-      bottom: 10px;
-      background-color: #EFB734;
-      color: #00000F;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      z-index: 1001;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .font-btn {
-      width: 40px;
-      height: 40px;
-      font-size: 16px;
-    }
-    
-    .font-btn.decrease { right: 115px; }
-    .font-btn.increase { right: 10px; }
   </style>
 
 </head>

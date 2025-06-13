@@ -130,20 +130,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 20px;
     }
     
     /* Positionierung mit 50px Abstand zueinander */
-    .scroll-to-top { right: 215px; }
-    .prev-chapter-btn { right: 265px; }
-    .next-chapter-btn { right: 315px; }
+    .prev-chapter-btn { right: 165px; }     /* links von scroll-to-top */
+    .scroll-to-top     { right: 215px; }     /* in der Mitte */
+    .next-chapter-btn { right: 265px; }     /* rechts von scroll-to-top */
     
+    /* Kein Hover für scroll-to-top */
     .scroll-to-top {
       opacity: 0.6;
       transition: opacity 0.3s;
     }
     
-    .scroll-to-top:hover,
+    /* Hover nur für Kapitel-Buttons */
     .prev-chapter-btn:hover,
     .next-chapter-btn:hover {
       opacity: 1;
@@ -189,7 +190,7 @@
     }
     
     .font-btn.decrease { right: 115px; }
-    .font-btn.increase { right: 165px; }
+    .font-btn.increase { right: 10px; }
   </style>
 
 </head>

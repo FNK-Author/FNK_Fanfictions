@@ -552,6 +552,10 @@
 
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      const textbox = document.getElementById('storyContent');
+      if (textbox) {
+        textbox.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
     function toggleFullscreen() {

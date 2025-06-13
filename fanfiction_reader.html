@@ -202,6 +202,40 @@
     .scroll-to-top      { right: 255px; }
 
 
+    details#atmosDropdown {
+      background-color: #EFD6A5;
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      max-width: 600px;
+      width: 85%;
+      text-align: left;
+      cursor: pointer;
+    }
+    details#atmosDropdown summary {
+      list-style: none;
+      outline: none;
+    }
+    details#atmosDropdown[open] {
+      padding-bottom: 0;
+    }
+    #atmosControls {
+      padding-top: 10px;
+    }
+    .atmos-item {
+      margin-bottom: 10px;
+    }
+    .atmos-item label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #EFB734;
+    }
+
+    
   </style>
 
 </head>
@@ -216,6 +250,11 @@
     <option disabled selected>Kapitel wählen</option>
   </select>
 
+  <details id="atmosDropdown">
+    <summary>🎧 Immersion‑Atmos</summary>
+    <div id="atmosControls"></div>
+  </details>
+  
   <div class="control-container">
     <div class="slider-label">🔊 Lautstärke</div>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" />
@@ -397,6 +436,58 @@
     const audioTrigger  = document.getElementById("audioTrigger");
     const volumeSlider  = document.getElementById("volumeSlider");
     const autoscrollSlider = document.getElementById("autoscrollSlider");
+
+
+
+
+    
+    const atmosList = [
+      { name: "Regen",          src: "https://files.catbox.moe/1xzs15.mp3" },
+      { name: "Gewitter",       src: "https://files.catbox.moe/ccxobw.mp3" },
+      { name: "Kamin",          src: "https://files.catbox.moe/j348my.mp3" },
+      { name: "Meeresrauschen", src: "https://files.catbox.moe/llj7ru.mp3" },
+      { name: "Öffentlicher Park", src: "https://files.catbox.moe/j05guh.mp3" },
+      { name: "Wald bei Tag",   src: "https://files.catbox.moe/ytthf0.mp3" },
+      { name: "Wald bei Nacht", src: "https://files.catbox.moe/tjy2sy.mp3" }
+    ];
+    
+    const atmosControls = document.getElementById("atmosControls");
+    const atmosTracks = atmosList.map(({name, src}) => {
+      // Container
+      const div = document.createElement("div");
+      div.className = "atmos-item";
+      // Label
+      const label = document.createElement("label");
+      label.textContent = name;
+      // Slider
+      const slider = document.createElement("input");
+      slider.type = "range";
+      slider.min = 0;
+      slider.max = 1;
+      slider.step = 0.01;
+      slider.value = 0;
+      // Audio
+      const audio = new Audio(src);
+      audio.loop = true;
+      audio.volume = 0;
+      document.body.appendChild(audio);
+      // Event
+      slider.addEventListener("input", () => {
+        const v = parseFloat(slider.value);
+        audio.volume = v;
+        if (v > 0) audio.play();
+        else audio.pause();
+      });
+      // Zusammenfügen
+      div.append(label, slider);
+      atmosControls.appendChild(div);
+      return { name, audio, slider };
+    });
+
+
+
+
+    
 
     let currentStory    = null;
     let currentChapter  = 0;

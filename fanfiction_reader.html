@@ -191,7 +191,13 @@
       height: 40px;
       font-size: 16px;
     }
+    .arrow.prev {
+      right: 215px;
+    }
     
+    .arrow.next {
+      right: 315px;
+    }
     .font-btn.decrease { right: 115px; }
     .font-btn.increase { right: 165px; }
     .prev-chapter-btn   { right: 215px; }
@@ -231,10 +237,8 @@
 
   <button class="toggle-fullscreen-btn" onclick="toggleFullscreen()">🖥️ Fullscreen</button>
   
-  <div class="nav-buttons">
-    <div class="arrow" onclick="changeChapter(-1)">←</div>
-    <div class="arrow" onclick="changeChapter(1)">→</div>
-  </div>
+<div class="arrow prev" onclick="changeChapter(-1)">←</div>
+<div class="arrow next" onclick="changeChapter(1)">→</div>
 
   <audio id="audioTrigger" loop></audio>
 

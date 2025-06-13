@@ -5,189 +5,166 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fanfictions by FNK</title>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet" />
-<style>
-  body {
-    margin: 0;
-    background-color: #00000F;
-    color: white;
-    font-family: 'EB Garamond', Garamond, serif;
-    text-align: center;
-    zoom: 1;
-  }
-  h1 {
-    font-size: 25px;
-    margin-top: 20px;
-  }
-  .highlight {
-    color: #EFB734;
-    text-decoration: none;
-  }
-  select, input[type="range"] {
-    background-color: #EFD6A5;
-    color: black;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    max-width: 600px;
-    width: 85%;
-    cursor: pointer;
-  }
-  input[type="range"] {
-    -webkit-appearance: none;
-    height: 5px;
-    padding: 0;
-  }
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #EFB734;
-    cursor: pointer;
-  }
-  .textbox {
-    margin: 10px auto;
-    border: 5px solid white;
-    width: 90%;
-    max-width: 600px;
-    aspect-ratio: 9/16;
-    overflow-y: auto;
-    padding: 15px;
-    background-color: transparent;
-    text-align: left;
-    counter-reset: linenumber;
-    font-size: 1.5em;
-    position: relative;
-  }
-  .textbox .line {
-    counter-increment: linenumber;
-    position: relative;
-    padding-left: 25px;
-    white-space: pre-wrap;
-  }
-  .textbox .line::before {
-    content: counter(linenumber);
-    position: absolute;
-    left: 0;
-    width: 0em;
-    text-align: left;
-    color: #2D3139;
-    font-size: 20px;
-  }
-  .textbox .line.playing::before {
-    color: #2D3139;
-    font-weight: bold;
-  }
-  .control-container {
-    max-width: 600px;
-    margin: 0 auto 20px;
-  }
-  .slider-label {
-    color: #EFB734;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  .nav-buttons {
-    display: flex;
-    justify-content: space-between;
-    max-width: 600px;
-    margin: 0 auto 30px;
-    padding: 0 10px;
-  }
-  .arrow {
-    font-size: 30px;
-    cursor: pointer;
-    user-select: none;
-  }
-  audio {
-    display: none;
-  }
-  .textbox img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 10px auto;
-  }
-  .scroll-to-top {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 30px;
-    color: #EFB734;
-    cursor: pointer;
-    z-index: 999;
-    transition: opacity 0.3s;
-    opacity: 0.6;
-  }
-  .scroll-to-top:hover {
-    opacity: 1;
-  }
-  .fullscreen {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100vw !important;
-    height: 100vh !important;
-    max-width: 100vw !important;
-    max-height: 100vh !important;
-    z-index: 1000;
-    background-color: #00000f;
-    padding: 30px;
-    font-size: 1.5em;
-    overflow-y: auto;
-    box-sizing: border-box;
-  }
-  /* Buttons alle als Kästchen */
-  .toggle-fullscreen-btn, .font-btn, .btn-next, .btn-scroll-up, .btn-prev {
-    position: fixed;
-    bottom: 10px;
-    height: 40px;
-    width: 40px;
-    background-color: #EFB734;
-    color: #00000F;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 1001;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-  }
-  /* Reihenfolge rechts unten: Fullscreen, Aa-, Aa+, Nächstes Kapitel, Hochscroll, Vorheriges Kapitel */
-  .toggle-fullscreen-btn {
-    right: 10px;
-  }
-  .font-btn.decrease {
-    right: 60px;
-  }
-  .font-btn.increase {
-    right: 110px;
-  }
-  .btn-next {
-    right: 160px;
-  }
-  .btn-scroll-up {
-    right: 210px;
-  }
-  .btn-prev {
-    right: 260px;
-  }
-  /* Hover Effekt */
-  .toggle-fullscreen-btn:hover,
-  .font-btn:hover,
-  .btn-next:hover,
-  .btn-scroll-up:hover,
-  .btn-prev:hover {
-    background-color: #d4af37;
-    opacity: 0.9;
-  }
-</style>
+  <style>
+    body {
+      margin: 0;
+      background-color: #00000F;
+      color: white;
+      font-family: 'EB Garamond', Garamond, serif;
+      text-align: center;
+      zoom: 1;
+    }
+    h1 {
+      font-size: 25px;
+      margin-top: 20px;
+    }
+    .highlight {
+      color: #EFB734;
+      text-decoration: none;
+    }
+    select, input[type="range"] {
+      background-color: #EFD6A5;
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      max-width: 600px;
+      width: 85%;
+      cursor: pointer;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 5px;
+      padding: 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #EFB734;
+      cursor: pointer;
+    }
+    .textbox {
+      margin: 10px auto;
+      border: 5px solid white;
+      width: 90%;
+      max-width: 600px;
+      aspect-ratio: 9/16;
+      overflow-y: auto;
+      padding: 15px;
+      background-color: transparent;
+      text-align: left;
+      counter-reset: linenumber;
+      font-size: 1.5em;
+      position: relative;
+    }
+    .textbox .line {
+      counter-increment: linenumber;
+      position: relative;
+      padding-left: 25px;
+      white-space: pre-wrap;
+    }
+    .textbox .line::before {
+      content: counter(linenumber);
+      position: absolute;
+      left: 0;
+      width: 0em;
+      text-align: left;
+      color: #2D3139;
+      font-size: 20px;
+    }
+    .textbox .line.playing::before {
+      color: #2D3139;
+      font-weight: bold;
+    }
+    .control-container {
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+    .slider-label {
+      color: #EFB734;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      padding: 0 10px;
+    }
+    .arrow {
+      font-size: 30px;
+      cursor: pointer;
+      user-select: none;
+    }
+    audio {
+      display: none;
+    }
+    .textbox img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      color: #EFB734;
+      cursor: pointer;
+      z-index: 999;
+      transition: opacity 0.3s;
+      opacity: 0.6;
+    }
+    .scroll-to-top:hover {
+      opacity: 1;
+    }
+    .fullscreen {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      z-index: 1000;
+      background-color: #00000f;
+      padding: 30px;
+      font-size: 1.5em;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .toggle-fullscreen-btn, .font-btn {
+      position: fixed;
+      height: 40px;
+      right: 10px;
+      bottom: 10px;
+      background-color: #EFB734;
+      color: #00000F;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .font-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+    .font-btn.decrease { right: 115px; }
+    .font-btn.increase { right: 165px; }
+  </style>
 
 </head>
 <body>

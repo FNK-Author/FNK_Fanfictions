@@ -89,19 +89,7 @@
       color: #EFB734;
       font-weight: bold;
       margin-top: 10px;
-    }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      max-width: 600px;
-      margin: 0 auto 30px;
-      padding: 0 10px;
-    }
-    .arrow {
-      font-size: 30px;
-      cursor: pointer;
-      user-select: none;
-    }
+    }    
     audio {
       display: none;
     }
@@ -111,21 +99,56 @@
       display: block;
       margin: 10px auto;
     }
-    .scroll-to-top {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 30px;
-      color: #EFB734;
-      cursor: pointer;
-      z-index: 999;
-      transition: opacity 0.3s;
-      opacity: 0.6;
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      padding: 0 10px;
     }
-    .scroll-to-top:hover {
+    
+    .arrow {
+      font-size: 30px;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .scroll-to-top,
+    .prev-chapter-btn,
+    .next-chapter-btn {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      bottom: 10px;
+      background-color: #EFB734;
+      color: #00000F;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    
+    /* Positionierung mit 50px Abstand zueinander */
+    .scroll-to-top { right: 215px; }
+    .prev-chapter-btn { right: 265px; }
+    .next-chapter-btn { right: 315px; }
+    
+    .scroll-to-top {
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+    
+    .scroll-to-top:hover,
+    .prev-chapter-btn:hover,
+    .next-chapter-btn:hover {
       opacity: 1;
     }
+    
     .fullscreen {
       position: fixed !important;
       top: 0;
@@ -141,6 +164,7 @@
       overflow-y: auto;
       box-sizing: border-box;
     }
+    
     .toggle-fullscreen-btn, .font-btn {
       position: fixed;
       height: 40px;
@@ -157,11 +181,13 @@
       align-items: center;
       justify-content: center;
     }
+    
     .font-btn {
       width: 40px;
       height: 40px;
       font-size: 16px;
     }
+    
     .font-btn.decrease { right: 115px; }
     .font-btn.increase { right: 165px; }
   </style>

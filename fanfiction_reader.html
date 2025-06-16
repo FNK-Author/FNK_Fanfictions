@@ -67,6 +67,9 @@
       font-size: 1.5em;
       position: relative;
     }
+    .textbox[contenteditable] {
+      border-color: #EFB734;
+    }
     .textbox .line {
       counter-increment: linenumber;
       position: relative;
@@ -547,23 +550,39 @@ atmosList.forEach(({name, src}) => {
       storySelect.appendChild(opt);
     });
 
+    // Eigene Geschichten-Option hinzufügen
+    const customOpt = document.createElement("option");
+    customOpt.value = "custom";
+    customOpt.textContent = "Eigene Geschichten";
+    storySelect.appendChild(customOpt);
+    
     storySelect.addEventListener("change", () => {
+      content.contentEditable = false;
+      content.classList.remove("editable");
+      if (storySelect.value === "custom") {
+        chapterSelect.innerHTML = '<option disabled selected>Eigene Geschichte</option>';
+        chapterSelect.disabled = true;
+        content.innerHTML = '';
+        content.contentEditable = true;
+        content.focus();
+        return;
+      }
+      chapterSelect.disabled = false;
       chapterSelect.innerHTML = '<option disabled selected>Kapitel wählen</option>';
-      currentStory = stories[storySelect.value];
-      currentChapter = 0;
-      currentStory.chapters.forEach((t, i) => {
+      const selected = stories[storySelect.value];
+      selected.chapters.forEach((t, i) => {
         const o = document.createElement("option");
         o.value = i;
-        const hasMusic = (currentStory.triggers[i] || []).some(trig => trig.music);
-        o.textContent = `${i+1}. ${t}${hasMusic ? " | ♫" : ""}`;
+        o.textContent = `${i+1}. ${t}`;
         chapterSelect.appendChild(o);
       });
       loadChapter(0);
     });
 
+    // Kapitel-Auswahl
     chapterSelect.addEventListener("change", () => {
-      currentChapter = +chapterSelect.value;
-      loadChapter(currentChapter);
+      if (storySelect.value === "custom") return;
+      loadChapter(+chapterSelect.value);
     });
 
     function insertImageTriggers() {
@@ -639,6 +658,7 @@ atmosList.forEach(({name, src}) => {
           currentTriggers = [];
         });
       chapterSelect.selectedIndex = idx + 1;
+      content.contentEditable = false;
       currentMusicID = null;
     }
 

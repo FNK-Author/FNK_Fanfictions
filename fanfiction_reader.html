@@ -327,7 +327,7 @@
         triggers: {
           0: [
             { line: 1, music: "yk0739" },
-            { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/b0401b1f4d98124a26be446520356034f23248ae/dhidn_1.png" },
+            { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/b0401b1f4d98124a26be446520356034f23248ae/dhidn_1.png", nsfw: true },
             { line: 1, video: "https://www.youtube.com/embed/uwJ5CX20q6I?si=FDKTg3V8E0f1oyO9" }
           ],
           1: [{ line: 1, music: "5bgsn9" }],
@@ -613,9 +613,40 @@ chapterSelect.addEventListener("change", () => {
       currentTriggers.filter(trig => trig.image).forEach(trig => {
         const el = lineEls[trig.line - 1];
         if (!el) return;
-        const img = document.createElement('img');
-        img.src = trig.image;
-        el.parentNode.insertBefore(img, el);
+        if (trig.nsfw) {
+          const wrapper = document.createElement('div');
+          wrapper.style.position = 'relative';
+          wrapper.style.display = 'inline-block';
+    
+          const img = document.createElement('img');
+          img.src = trig.image;
+          img.style.filter = 'blur(20px)';
+          img.style.cursor = 'pointer';
+          wrapper.appendChild(img);
+    
+          const overlay = document.createElement('div');
+          overlay.style.position = 'absolute';
+          overlay.style.top = '50%';
+          overlay.style.left = '50%';
+          overlay.style.transform = 'translate(-50%, -50%)';
+          overlay.style.color = 'white';
+          overlay.style.fontSize = '18px';
+          overlay.style.textAlign = 'center';
+          overlay.style.pointerEvents = 'none';
+          overlay.innerHTML = '🔒<br>Tippen, um Bild zu enthüllen.';
+          wrapper.appendChild(overlay);
+    
+          wrapper.addEventListener('click', () => {
+            img.style.filter = '';
+            overlay.remove();
+          });
+    
+          el.parentNode.insertBefore(wrapper, el);
+        } else {
+          const img = document.createElement('img');
+          img.src = trig.image;
+          el.parentNode.insertBefore(img, el);
+        }
       });
       // Videos vor der Zeile einfügen
       currentTriggers.filter(trig => trig.video).forEach(trig => {

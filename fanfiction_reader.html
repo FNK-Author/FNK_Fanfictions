@@ -715,12 +715,13 @@ chapterSelect.addEventListener("change", () => {
       const lineEls = content.querySelectorAll('.line');
       const lineHeight = lineEls[0]?.offsetHeight || 0;
       currentTriggers.forEach(trig => {
-        if (!trig.music) return;
-        if (trig.music === currentMusicID) return;
+        if (!trig.music || trig.music === currentMusicID) return;
         const el = lineEls[trig.line - 1];
         if (!el) return;
         const offset = el.offsetTop;
-        if (Math.abs(offset - scrollTop) < lineHeight / 2) {
+        const middle = content.clientHeight / 2;
+        const distance = offset - scrollTop - middle;
+        if (Math.abs(distance) < lineHeight / 2) {
           currentMusicID = trig.music;
           audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
           if (audioTrigger.volume > 0) audioTrigger.play();

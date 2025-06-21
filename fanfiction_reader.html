@@ -263,6 +263,32 @@
       align-items: center;
       gap: 10px;
     }
+
+
+    body.light-mode {
+      background-color: #F7ECD7;
+      color: black;
+    }
+    body.light-mode .textbox { color: black; }
+    body.light-mode .highlight { color: black; }
+    
+    .theme-btn {
+      position: fixed;
+      bottom: 10px;
+      right: 30px;
+      width: 40px;
+      height: 40px;
+      background-color: #EFB734;
+      color: #00000F;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
     
   </style>
 
@@ -310,6 +336,8 @@
   <button class="font-btn decrease" onclick="changeFontSize(-2)">Aa-</button>
   <button class="font-btn increase" onclick="changeFontSize(2)">Aa+</button>
   <button class="toggle-fullscreen-btn" onclick="toggleFullscreen()">🖥️ Lesemodus</button>
+  <button class="theme-btn" onclick="toggleTheme()">🌗</button>
+
   
   <script>
     const stories = {
@@ -765,6 +793,10 @@ atmosList.forEach(({name, src}) => {
       const style = window.getComputedStyle(textbox).fontSize;
       let current = parseFloat(style);
       textbox.style.fontSize = (current + delta) + 'px';
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
     }
     
   </script>

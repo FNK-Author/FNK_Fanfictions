@@ -313,7 +313,7 @@
     </select>
   
     <details id="atmosDropdown">
-      <summary> Immersion‑Atmos</summary>
+      <summary> Immersion-Atmos</summary>
       <div id="atmosControls"></div>
     </details>
   </div>
@@ -620,14 +620,12 @@ atmosList.forEach(({name, src}) => {
         const o = document.createElement("option");
         o.value = i;
         const hasMusic = (selected.triggers[i] || []).some(trig => trig.music);
-        o.textContent = `${i+1}. ${t}${hasMusic ? " | ♫" : ""}`;
+        const hasImage = (selected.triggers[i] || []).some(trig => trig.image);
+        o.textContent = `${i+1}. ${t}${hasMusic ? " | ♫" + (hasImage ? " 🖼️" : "") : ""}`;
         chapterSelect.appendChild(o);
       });
       loadChapter(0);
     });
-
-
-
 
     chapterSelect.addEventListener("change", () => {
       if (storySelect.value === "custom") return;
@@ -638,7 +636,8 @@ atmosList.forEach(({name, src}) => {
         const o = document.createElement("option");
         o.value = i;
         const hasMusic = (currentStory.triggers[i] || []).some(trig => trig.music);
-        o.textContent = `${i+1}. ${t}${hasMusic ? " | ♫" : ""}`;
+        const hasImage = (currentStory.triggers[i] || []).some(trig => trig.image);
+        o.textContent = `${i+1}. ${t}${hasMusic ? " | ♫" + (hasImage ? " 🖼️" : "") : ""}`;
         chapterSelect.appendChild(o);
       });
       loadChapter(currentChapter);

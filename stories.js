@@ -1,5 +1,4 @@
-
-    const stories = {
+    export const stories = {
       "Die Hexe in der Nacht (Harry Potter)": {
         prefix: "dhidn_",
         chapters: [

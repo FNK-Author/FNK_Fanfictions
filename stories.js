@@ -104,7 +104,7 @@
           30: [{ line: 1, music: "" }],
           31: [{ line: 1, music: "" }],
           32: [{ line: 1, music: "" }],
-          33: [{ line: 1, music: "" }]
+          33: [{ line: 1, music: "" }],
           34: [
             { line: 1, music: "" }
           ]

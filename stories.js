@@ -1,6 +1,7 @@
     export const stories = {
       "Die Hexe in der Nacht (Harry Potter)": {
         prefix: "dhidn_",
+        isVisible: true,
         chapters: [
           "Der Fang seines Lebens","Die Regelbrecher","Missetat begangen","Die Feier","Neugier",
           "Das Geheimnis","Der Trank","Der Sturm","Ein Wunsch geht in Erfüllung","Bis wir uns irgendwann wiedersehen und zusammenwachsen",
@@ -108,6 +109,7 @@
       },
       "SADMAX (Stranger Things)": {
         prefix: "sadmax_",
+        isVisible: true,
         chapters: ["Prolog","22. Oktober 1984"],
         triggers: {
           0: [
@@ -122,6 +124,7 @@
       },
       "Gefangen (Star Wars)": {
         prefix: "gefangen_",
+        isVisible: true,
         chapters: ["Tag 1","Tag 2","Tag 3","Tag 4","Tag 5","Tag 6 - Morgendämmerung"],
         triggers: {
           0: [
@@ -138,6 +141,7 @@
       },
       "Veilchen für Vi (Arcane)": {
         prefix: "vfv_",
+        isVisible: true,
         chapters: ["Veilchen für Vi"],
         triggers: {
           0: [
@@ -148,6 +152,7 @@
       },
       "Erinnermich, der Harry Potter Adventskalender 2024": {
         prefix: "erinnermich24_",
+        isVisible: true,
         chapters: [
           "Vorwort","Harry Potter","Severus Snape","Fred Weasley","George Weasley",
           "Luna Lovegood","Draco Malfoy","Sirius Black","Remus Lupin","Bellatrix Lestrange",
@@ -190,6 +195,7 @@
       },
       "化身的职责 - Die Pflicht eines Avatars": {
         prefix: "dpea_",
+        isVisible: true,
         chapters: ["Die Pflicht eines Avatars"],
         triggers: {
           0: [

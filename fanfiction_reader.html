@@ -347,7 +347,41 @@
 
   
   <script type="module">
-    import { stories } from 'https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/stories.js';
+  (async () => {
+    const STORIES_URL = 'https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/stories.js';
+  
+    async function loadStoriesModule(url) {
+      try {
+        // Versuch direkter Import (am elegantesten)
+        const mod = await import(url);
+        return mod.stories;
+      } catch (err) {
+        console.warn('Direkter import fehlgeschlagen, versuche fetch+blob fallback:', err);
+        // Fallback: fetch + Blob -> import(url) um MIME/CORS-Probleme zu umgehen
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+        const js = await res.text();
+        const blob = new Blob([js], { type: 'text/javascript' });
+        const blobUrl = URL.createObjectURL(blob);
+        try {
+          const mod = await import(blobUrl);
+          return mod.stories;
+        } finally {
+          URL.revokeObjectURL(blobUrl);
+        }
+      }
+    }
+  
+    let stories;
+    try {
+      stories = await loadStoriesModule(STORIES_URL);
+      if (!stories) throw new Error('Keine stories-Export gefunden');
+    } catch (err) {
+      console.error('Konnte stories nicht laden:', err);
+      // Fallback-UI
+      document.getElementById('storyContent').innerHTML = '<div class="line">Fehler beim Laden der Stories.</div>';
+      return;
+    }
 
     const storySelect   = document.getElementById("storySelect");
     const chapterSelect = document.getElementById("chapterSelect");
@@ -662,6 +696,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

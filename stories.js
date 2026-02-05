@@ -13,10 +13,10 @@
         ],
         triggers: {
           0: [
-            { line: 1, music: "yk0739" },
-            { line: 5, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dhidn_k1_1.png", nsfw: true },
             { line: 1, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/b0401b1f4d98124a26be446520356034f23248ae/dhidn_1.png" },
-            { line: 1, video: "https://www.youtube.com/embed/uwJ5CX20q6I?si=FDKTg3V8E0f1oyO9" }
+            { line: 1, music: "yk0739" },
+            { line: 1, video: "https://www.youtube.com/embed/uwJ5CX20q6I?si=FDKTg3V8E0f1oyO9" },
+            { line: 5, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dhidn_k1_1.png", nsfw: true }
           ],
           1: [
             { line: 1, music: "5bgsn9" },
@@ -105,6 +105,9 @@
           31: [{ line: 1, music: "" }],
           32: [{ line: 1, music: "" }],
           33: [{ line: 1, music: "" }]
+          34: [
+            { line: 1, music: "" }
+          ]
         }
       },
       "SADMAX (Stranger Things)": {

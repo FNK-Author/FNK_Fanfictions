@@ -436,6 +436,8 @@ atmosList.forEach(({name, src}) => {
     });
 
     Object.keys(stories).forEach(name => {
+      const s = stories[name];
+      if (s && s.isVisible === false) return;
       const opt = document.createElement("option");
       opt.value = name;
       opt.textContent = name;
@@ -665,6 +667,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

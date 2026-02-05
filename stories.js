@@ -1,7 +1,7 @@
     export const stories = {
       "Die Hexe in der Nacht (Harry Potter)": {
         prefix: "dhidn_",
-        isVisible: false,
+        isVisible: true,
         chapters: [
           "Der Fang seines Lebens","Die Regelbrecher","Missetat begangen","Die Feier","Neugier",
           "Das Geheimnis","Der Trank","Der Sturm","Ein Wunsch geht in Erfüllung","Bis wir uns irgendwann wiedersehen und zusammenwachsen",

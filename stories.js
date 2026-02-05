@@ -9,7 +9,7 @@
           "Pfefferminz Melodie","Eine kleine Ewigkeit","Eskalation - Teil 1","Eskalation - Teil 2","Träumerei",
           "Tunichtgut","Erinnerungslücken","Unverzeihlich","Der Tiefpunkt","Felicity - Teil 1: Das Geheimnis",
           "Felicity - Teil 2: Die Freundschaft","Felicity - Teil 3: Der Unfall","Felicity - Teil 4: Das Portrait","Ein offenes Ohr","Therapie",
-          "Solo","Der Hexentag - Teil 1","Der Hexentag - Teil 2","Der Hexentag - Teil 3","Der Hexentag - Teil 4"
+          "Solo","Der Hexentag - Teil 1","Der Hexentag - Teil 2","Der Hexentag - Teil 3","Der Hexentag - Teil 4","Blut und Stiele"
         ],
         triggers: {
           0: [

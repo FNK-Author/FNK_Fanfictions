@@ -348,7 +348,8 @@
   
 
 
-  <script src="https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/stories.js"></script>
+  <script type="module">
+    import { stories } from 'https://cdn.jsdelivr.net/gh/FNK-Author/FNK_Fanfictions@main/stories.js';
 
 
     const storySelect   = document.getElementById("storySelect");
@@ -664,6 +665,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

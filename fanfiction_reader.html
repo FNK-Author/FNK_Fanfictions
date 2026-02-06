@@ -607,28 +607,63 @@ atmosList.forEach(({name, src}) => {
       chapterSelect.selectedIndex = idx + 1;
       content.contentEditable = false;
       currentMusicID = null;
+      lastTriggeredLine = 0;
     }
 
+
+
+    let lastTriggeredLine = 0;
+    
     content.addEventListener('scroll', () => {
-      const scrollTop = content.scrollTop;
-      const lineEls = content.querySelectorAll('.line');
-      const lineHeight = lineEls[0]?.offsetHeight || 0;
+      if (!currentTriggers.length) return;
+    
+      const containerRect = content.getBoundingClientRect();
+      const containerTop = containerRect.top;
+    
+      const lines = content.querySelectorAll('.line');
+    
       currentTriggers.forEach(trig => {
-        if (!trig.music || trig.music === currentMusicID) return;
-        const el = lineEls[trig.line - 1];
+        if (!trig.music) return;
+    
+        const lineNum = trig.line;
+        if (lineNum <= lastTriggeredLine) return;
+    
+        const el = lines[lineNum - 1];
         if (!el) return;
-        const offset = el.offsetTop;
-        const middle = content.clientHeight / 2;
-        const distance = offset - scrollTop - middle;
-        if (offset - scrollTop < content.clientHeight * 0.25) {
+    
+        const rect = el.getBoundingClientRect();
+    
+        // ⭐ Zeile ist über oberen Rand raus
+        if (rect.bottom <= containerTop) {
+    
+          lastTriggeredLine = lineNum;
           currentMusicID = trig.music;
-          audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
-          if (audioTrigger.volume > 0) audioTrigger.play();
-          lineEls.forEach(l => l.classList.remove('playing'));
+    
+          audioTrigger.src =
+            `https://files.catbox.moe/${trig.music}.mp3`;
+    
+          if (audioTrigger.volume > 0) {
+            audioTrigger.play().catch(()=>{});
+          }
+    
+          lines.forEach(l =>
+            l.classList.remove('playing')
+          );
+    
           el.classList.add('playing');
         }
       });
     });
+
+
+
+
+
+
+
+
+
+    
 
     function changeChapter(dir) {
       if (!currentStory) return;
@@ -672,6 +707,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

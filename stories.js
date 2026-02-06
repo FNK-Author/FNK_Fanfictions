@@ -105,9 +105,19 @@
           31: [{ line: 1, music: "" }],
           32: [{ line: 1, music: "" }],
           33: [{ line: 1, music: "" }],
-          34: [
-            { line: 1, music: "" }
+          34: [{ line: 1, music: "" }],
+          35: [{ line: 1, music: "" }],
+          36: [
+            { line: 1, music: "fbz1au" },
+            { line: 63, music: "1liu6l" },
+            { line: 118, music: "72r4ac" },
+            { line: 292, music: "x5t47o" },
+            { line: 398, music: "26dnji" },
+            { line: 596, music: "rcmdhw" },
+            { line: 696, music: "0152e5" }
           ]
+            
+
         }
       },
       "SADMAX (Stranger Things)": {

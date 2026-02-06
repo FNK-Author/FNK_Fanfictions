@@ -633,8 +633,9 @@ atmosList.forEach(({name, src}) => {
     
         const rect = el.getBoundingClientRect();
     
-        // ⭐ Zeile ist über oberen Rand raus
-        if (rect.bottom <= containerTop) {
+
+        if (rect.bottom <= containerTop + rect.height * 0.05) {
+
     
           lastTriggeredLine = lineNum;
           currentMusicID = trig.music;
@@ -707,6 +708,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

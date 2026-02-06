@@ -334,6 +334,17 @@
     Viel Spaß beim Lesen!<br>
     - FNK
   </div>
+
+  <div id="commentFormContainer" style="max-width: 640px; margin: 16px auto;">
+    <!-- Default-iframe (fallback) or will be replaced by JS -->
+    <iframe id="commentFormIframe"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeFBCThjvf6Cqx_-E78w3bX5ahIpyTsGfZuU0_t87QKQenEww/viewform?embedded=true"
+            width="100%" height="420" frameborder="0" marginheight="0" marginwidth="0">
+      Loading…
+    </iframe>
+  </div>
+
+  
   
   <div class="arrow prev" onclick="changeChapter(-1)">←</div>
   <div class="arrow next" onclick="changeChapter(1)">→</div>
@@ -358,6 +369,42 @@
     const audioTrigger  = document.getElementById("audioTrigger");
     const volumeSlider  = document.getElementById("volumeSlider");
     const autoscrollSlider = document.getElementById("autoscrollSlider");
+
+
+    const COMMENT_FORM_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSeFBCThjvf6Cqx_-E78w3bX5ahIpyTsGfZuU0_t87QKQenEww/viewform?embedded=true";
+    
+    // ERSETZE diese mit den tatsächlichen entry IDs aus deinem Formular (siehe Anleitung unten)
+    const ENTRY_STORY   = "entry.1239304275"; // <-- REPLACE
+    const ENTRY_CHAPTER = "entry.184497805"; // <-- REPLACE
+    
+    function updateCommentFormEmbed() {
+      const iframe = document.getElementById("commentFormIframe");
+      if (!iframe) return;
+    
+      // Wenn keine Story geladen -> Standard-Form (ohne Prefill)
+      if (!currentStory) {
+        iframe.src = COMMENT_FORM_BASE;
+        return;
+      }
+    
+      // Werte vorbefüllen: Story (z.B. key oder name) und Kapitel (Zahl)
+      const storyVal = encodeURIComponent(storySelect.value || "");
+      const chapterVal = encodeURIComponent((currentChapter + 1) || "");
+    
+      // build URL with prefilled entries
+      const prefilled = `${COMMENT_FORM_BASE}&${ENTRY_STORY}=${storyVal}&${ENTRY_CHAPTER}=${chapterVal}`;
+    
+      iframe.src = prefilled;
+    }
+
+
+
+    
+
+
+
+
+    
     
 
 
@@ -467,6 +514,7 @@ atmosList.forEach(({name, src}) => {
       const selected = stories[storySelect.value];
       currentStory = selected;
       currentChapter = 0;
+      updateCommentFormEmbed();
     selected.chapters.forEach((t, i) => {
       const o = document.createElement("option");
       o.value = i;
@@ -604,6 +652,7 @@ atmosList.forEach(({name, src}) => {
       autoscrollSlider.value = 0;
       updateAutoscroll();
       content.scrollTop = 0;
+      updateCommentFormEmbed();
 
       
       document.querySelectorAll('audio').forEach(a => {
@@ -754,6 +803,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

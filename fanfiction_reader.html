@@ -662,11 +662,31 @@ atmosList.forEach(({name, src}) => {
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
     }
+
+    function triggerMusic(trig, el) {
+      if (!trig.music || trig.music === currentMusicID) return;
+    
+      currentMusicID = trig.music;
+      audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
+    
+      if (audioTrigger.volume > 0) {
+        audioTrigger.play().catch(()=>{});
+      }
+    
+      document.querySelectorAll('.line')
+        .forEach(l => l.classList.remove('playing'));
+    
+      if (el) el.classList.add('playing');
+    }
+
+
+    
     
   </script>
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

@@ -108,6 +108,7 @@
           34: [{ line: 1, music: "" }],
           35: [
             { line: 1, music: "fbz1au" },
+            { line: 39, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dhidn_k36_1.png", nsfw: false },              
             { line: 63, music: "1liu6l" },
             { line: 118, music: "72r4ac" },
             { line: 292, music: "x5t47o" },

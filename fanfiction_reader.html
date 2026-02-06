@@ -620,7 +620,7 @@ atmosList.forEach(({name, src}) => {
         const offset = el.offsetTop;
         const middle = content.clientHeight / 2;
         const distance = offset - scrollTop - middle;
-        if (Math.abs(distance) < lineHeight / 2) {
+        if (offset - scrollTop < content.clientHeight * 0.25) {
           currentMusicID = trig.music;
           audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
           if (audioTrigger.volume > 0) audioTrigger.play();
@@ -663,21 +663,7 @@ atmosList.forEach(({name, src}) => {
       document.body.classList.toggle('light-mode');
     }
 
-    function triggerMusic(trig, el) {
-      if (!trig.music || trig.music === currentMusicID) return;
-    
-      currentMusicID = trig.music;
-      audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
-    
-      if (audioTrigger.volume > 0) {
-        audioTrigger.play().catch(()=>{});
-      }
-    
-      document.querySelectorAll('.line')
-        .forEach(l => l.classList.remove('playing'));
-    
-      if (el) el.classList.add('playing');
-    }
+
 
 
     
@@ -686,6 +672,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

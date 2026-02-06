@@ -358,6 +358,7 @@
     const audioTrigger  = document.getElementById("audioTrigger");
     const volumeSlider  = document.getElementById("volumeSlider");
     const autoscrollSlider = document.getElementById("autoscrollSlider");
+    
 
 
 
@@ -705,7 +706,11 @@ atmosList.forEach(({name, src}) => {
       document.body.classList.toggle('light-mode');
     }
 
-
+      window.changeChapter     = changeChapter;
+      window.scrollToTop       = scrollToTop;
+      window.toggleFullscreen  = toggleFullscreen;
+      window.changeFontSize    = changeFontSize;
+      window.toggleTheme       = toggleTheme;
 
 
     
@@ -714,6 +719,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

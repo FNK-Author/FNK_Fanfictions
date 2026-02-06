@@ -633,24 +633,19 @@ atmosList.forEach(({name, src}) => {
     
         const rect = el.getBoundingClientRect();
     
-
-        if (rect.bottom <= containerTop + rect.height * 0.05) {
-
+        // Trigger, sobald die obere Kante der Zeile den oberen Rand berührt oder überschreitet
+        if (rect.top <= containerTop) {
     
           lastTriggeredLine = lineNum;
           currentMusicID = trig.music;
     
-          audioTrigger.src =
-            `https://files.catbox.moe/${trig.music}.mp3`;
+          audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
     
           if (audioTrigger.volume > 0) {
-            audioTrigger.play().catch(()=>{});
+            audioTrigger.play().catch(() => {});
           }
     
-          lines.forEach(l =>
-            l.classList.remove('playing')
-          );
-    
+          lines.forEach(l => l.classList.remove('playing'));
           el.classList.add('playing');
         }
       });
@@ -708,6 +703,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

@@ -612,7 +612,7 @@ atmosList.forEach(({name, src}) => {
 
 
 
-    let lastTriggeredLine = 0;
+    let currentPlayingLine = 0;  // Welche Zeile aktuell "aktiv" ist
     
     content.addEventListener('scroll', () => {
       if (!currentTriggers.length) return;
@@ -622,33 +622,44 @@ atmosList.forEach(({name, src}) => {
     
       const lines = content.querySelectorAll('.line');
     
-      currentTriggers.forEach(trig => {
-        if (!trig.music) return;
+      // Wir suchen die oberste Trigger-Zeile, die gerade den oberen Rand berührt oder überschreitet
+      let triggeredLine = 0;
+      let triggeredMusic = null;
+    
+      for (let trig of currentTriggers) {
+        if (!trig.music) continue;
     
         const lineNum = trig.line;
-        if (lineNum <= lastTriggeredLine) return;
-    
         const el = lines[lineNum - 1];
-        if (!el) return;
+        if (!el) continue;
     
         const rect = el.getBoundingClientRect();
     
-        // Trigger, sobald die obere Kante der Zeile den oberen Rand berührt oder überschreitet
+        // Trigger wenn die Zeile oben am Container ankommt oder drunter ist
         if (rect.top <= containerTop) {
-    
-          lastTriggeredLine = lineNum;
-          currentMusicID = trig.music;
-    
-          audioTrigger.src = `https://files.catbox.moe/${trig.music}.mp3`;
-    
-          if (audioTrigger.volume > 0) {
-            audioTrigger.play().catch(() => {});
+          // Wir merken uns immer die Zeile mit der größten Nummer, die gerade den Rand berührt
+          if (lineNum > triggeredLine) {
+            triggeredLine = lineNum;
+            triggeredMusic = trig.music;
           }
-    
-          lines.forEach(l => l.classList.remove('playing'));
-          el.classList.add('playing');
         }
-      });
+      }
+    
+      // Wenn sich die Trigger-Zeile geändert hat, Musik wechseln und Markierung aktualisieren
+      if (triggeredLine !== 0 && triggeredLine !== currentPlayingLine) {
+        currentPlayingLine = triggeredLine;
+        currentMusicID = triggeredMusic;
+    
+        audioTrigger.src = `https://files.catbox.moe/${triggeredMusic}.mp3`;
+    
+        if (audioTrigger.volume > 0) {
+          audioTrigger.play().catch(() => {});
+        }
+    
+        lines.forEach(l => l.classList.remove('playing'));
+        const el = lines[triggeredLine - 1];
+        if (el) el.classList.add('playing');
+      }
     });
 
 
@@ -703,6 +714,7 @@ atmosList.forEach(({name, src}) => {
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

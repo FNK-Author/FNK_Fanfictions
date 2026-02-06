@@ -467,18 +467,31 @@ atmosList.forEach(({name, src}) => {
       const selected = stories[storySelect.value];
       currentStory = selected;
       currentChapter = 0;
-      selected.chapters.forEach((t, i) => {
-        const o = document.createElement("option");
-        o.value = i;
-        const triggers = selected.triggers[i] || [];
-        const hasMusic = triggers.some(trig => Boolean(trig.music));
-        const hasImage = triggers.some(trig => Boolean(trig.image));
-        let suffix = "";
-        if (hasMusic) suffix += " | ♫";
-        if (hasImage) suffix += (hasMusic ? " 🖼️" : " | 🖼️");
-        o.textContent = `${i+1}. ${t}${suffix}`;
-        chapterSelect.appendChild(o);
+    selected.chapters.forEach((t, i) => {
+      const o = document.createElement("option");
+      o.value = i;
+    
+      const triggers = selected.triggers[i] || [];
+      const hasMusic = triggers.some(trig => Boolean(trig.music));
+      const hasImage = triggers.some(trig => Boolean(trig.image));
+    
+      let suffix = "";
+      if (hasMusic) suffix += " | ♫";
+      if (hasImage) suffix += (hasMusic ? " 🖼️" : " | 🖼️");
+    
+      o.textContent = `${i+1}. ${t}${suffix} | … Wörter`;
+      chapterSelect.appendChild(o);
+    
+      fetchWordCount(selected.prefix, i + 1).then(count => {
+        if (!chapterSelect.contains(o)) return;
+        if (count !== null) {
+          o.textContent = `${i+1}. ${t}${suffix} | ${count} Wörter`;
+        } else {
+          o.textContent = `${i+1}. ${t}${suffix}`;
+        }
       });
+    });
+
       loadChapter(0);
     });
     
@@ -487,18 +500,30 @@ atmosList.forEach(({name, src}) => {
       currentChapter = +chapterSelect.value;
       // Kapitel-Auswahl inkl. Musiksymbol & Bildsymbol aktualisieren
       chapterSelect.innerHTML = '<option disabled selected>Kapitel wählen</option>';
-      currentStory.chapters.forEach((t, i) => {
-        const o = document.createElement("option");
-        o.value = i;
-        const triggers = (currentStory.triggers[i] || []);
-        const hasMusic = triggers.some(trig => Boolean(trig.music));
-        const hasImage = triggers.some(trig => Boolean(trig.image));
-        let suffix = "";
-        if (hasMusic) suffix += " | ♫";
-        if (hasImage) suffix += (hasMusic ? " 🖼️" : " | 🖼️");
-        o.textContent = `${i+1}. ${t}${suffix}`;
-        chapterSelect.appendChild(o);
+    currentStory.chapters.forEach((t, i) => {
+      const o = document.createElement("option");
+      o.value = i;
+    
+      const triggers = currentStory.triggers[i] || [];
+      const hasMusic = triggers.some(trig => Boolean(trig.music));
+      const hasImage = triggers.some(trig => Boolean(trig.image));
+    
+      let suffix = "";
+      if (hasMusic) suffix += " | ♫";
+      if (hasImage) suffix += (hasMusic ? " 🖼️" : " | 🖼️");
+    
+      o.textContent = `${i+1}. ${t}${suffix} | … Wörter`;
+      chapterSelect.appendChild(o);
+    
+      fetchWordCount(currentStory.prefix, i + 1).then(count => {
+        if (!chapterSelect.contains(o)) return;
+        if (count !== null) {
+          o.textContent = `${i+1}. ${t}${suffix} | ${count} Wörter`;
+        } else {
+          o.textContent = `${i+1}. ${t}${suffix}`;
+        }
       });
+    });
       loadChapter(currentChapter);
     });
 
@@ -712,13 +737,24 @@ atmosList.forEach(({name, src}) => {
       window.changeFontSize    = changeFontSize;
       window.toggleTheme       = toggleTheme;
 
-
+    async function fetchWordCount(prefix, num) {
+      try {
+        const url = `https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/main/${prefix}${num}.txt`;
+        const r = await fetch(url);
+        if (!r.ok) return null;
+        const txt = await r.text();
+        return txt.trim().split(/\s+/).filter(Boolean).length;
+      } catch {
+        return null;
+      }
+    }
     
     
   </script>
   <div class="scroll-to-top" onclick="scrollToTop()">⬆️</div>
 </body>
 </html>
+
 
 
 

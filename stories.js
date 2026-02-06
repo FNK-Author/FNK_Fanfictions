@@ -114,6 +114,7 @@
             { line: 292, music: "x5t47o" },
             { line: 398, music: "26dnji" },
             { line: 596, music: "rcmdhw" },
+            { line: 680, image: "https://raw.githubusercontent.com/FNK-Author/FNK_Fanfictions/refs/heads/main/dhidn_k36_2.png", nsfw: false },      
             { line: 696, music: "0152e5" }
           ]
         }

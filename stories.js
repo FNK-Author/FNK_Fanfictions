@@ -158,7 +158,7 @@ const stories = {
     prefix: 'sadmax_',
     bookTitle: 'SADMAX',
     isVisible: true,
-    chapters: ['Prolog', '22. Oktober 1984'],
+    chapters: ['Prolog', '22. Oktober 1984', '23. Oktober 1984'],
     triggers: {
       0: [
         { line: 1, music: 'sadmax_1_1.mp3' },

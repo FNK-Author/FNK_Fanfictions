@@ -167,6 +167,9 @@ const stories = {
       ],
       1: [
         { line: 1, music: 'sadmax_2_1.mp3' }
+      ],
+      2: [
+        { line: 1, music: 'sadmax_2_1.mp3' }
       ]
     }
   },
